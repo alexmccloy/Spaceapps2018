@@ -10,8 +10,18 @@ namespace TheWebApp.Code
         public string DataType;
         public double Latitude;
         public double Longitude;
-        public double City;
+        public string City;
 
-        public IDictionary<DateTime, double> Data;
+        public Dictionary<DateTime, double> Data;
+
+        public Result()
+        {
+            Data = new Dictionary<DateTime, double>();
+        }
+
+        public void AddData(string time, string value)
+        {
+            Data.Add(DateTime.ParseExact(time, "dd/MM/yyyy", null), Double.Parse(value));
+        }
     }
 }

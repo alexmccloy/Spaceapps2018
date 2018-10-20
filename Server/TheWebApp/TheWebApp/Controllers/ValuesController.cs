@@ -49,9 +49,10 @@ namespace TheWebApp.Controllers
         /// <param name="lon"></param>
         /// <param name="lat"></param>
         /// <returns></returns>
-        public string Get(double lon, double lat)
+        public IList<Result> Get(double lon, double lat)
         {
             GpsCoord requestedGps = new GpsCoord(lat, lon);
+            List<Result> results = new List<Result>();
 
             //Get best location
             double minDist = Double.MaxValue;
@@ -67,7 +68,12 @@ namespace TheWebApp.Controllers
             }
 
             //Get all available data
-            return bestLocation;
+            foreach (TableType type in Util.GetAllItems<TableType>())
+            {
+                results.Add(StaticShit.Db.GetResultFor(type, bestLocation));
+            }
+
+            return results;
         }
 
         // POST api/values
