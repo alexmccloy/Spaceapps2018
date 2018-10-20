@@ -14,6 +14,7 @@ namespace TheWebApp.Code
         public DbAdaptor(string dbName)
         {
             dbConnection = new SQLiteConnection(($"Data Source = {HostingEnvironment.MapPath($"~/App_Data/{dbName}")}.; Version = 3;"));
+            dbConnection.Open();
         }
 
         public IDictionary<string, GpsCoord> GetUniqueLocations()
@@ -24,7 +25,7 @@ namespace TheWebApp.Code
 
             foreach (string tableName in tableNames)
             {
-                string query = $"SELECT DISTINCTBY latitude,longitude FROM {tableName}";
+                string query = $"SELECT DISTINCT location,latitude,longitude FROM {tableName}";
                 var command = new SQLiteCommand(query, dbConnection);
                 var reader = command.ExecuteReader();
 

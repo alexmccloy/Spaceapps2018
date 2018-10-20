@@ -12,11 +12,11 @@ namespace TheWebApp.Code
         public double Latitude { get; set; }
         private GeoCoordinate geo;
 
-        public GpsCoord(double lon, double lat)
+        public GpsCoord(double lat, double lon)
         {
             Longitude = lon;
             Latitude = lat;
-            geo = new GeoCoordinate(lon, lat);
+            geo = new GeoCoordinate(lat, lon);
         }
 
         public GpsCoord(string lon, string lat)
@@ -28,7 +28,7 @@ namespace TheWebApp.Code
 
         public double DistanceTo(GpsCoord other)
         {
-            return geo.GetDistanceTo(other.geo);
+           return geo.GetDistanceTo(other.geo);
         }
     }
 }

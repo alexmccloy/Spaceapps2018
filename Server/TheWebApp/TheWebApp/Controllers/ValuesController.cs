@@ -19,7 +19,7 @@ namespace TheWebApp.Controllers
         // GET api/values
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            return new string[] { "You got the default Get", "IDIOT" };
         }
 
         // GET api/values/5
@@ -51,7 +51,7 @@ namespace TheWebApp.Controllers
         /// <returns></returns>
         public string Get(double lon, double lat)
         {
-            GpsCoord requestedGps = new GpsCoord(lon, lat);
+            GpsCoord requestedGps = new GpsCoord(lat, lon);
 
             //Get best location
             double minDist = Double.MaxValue;
@@ -67,7 +67,7 @@ namespace TheWebApp.Controllers
             }
 
             //Get all available data
-            return null;
+            return bestLocation;
         }
 
         // POST api/values
