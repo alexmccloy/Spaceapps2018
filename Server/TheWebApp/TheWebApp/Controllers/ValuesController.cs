@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Text;
 using System.Web.Hosting;
 using System.Web.Http;
+using TheWebApp.Code;
 
 namespace TheWebApp.Controllers
 {
@@ -40,6 +41,33 @@ namespace TheWebApp.Controllers
 
                 return sb.ToString();
             }
+        }
+
+        /// <summary>
+        /// Return all the available data closest to the given coordinate
+        /// </summary>
+        /// <param name="lon"></param>
+        /// <param name="lat"></param>
+        /// <returns></returns>
+        public string Get(double lon, double lat)
+        {
+            GpsCoord requestedGps = new GpsCoord(lon, lat);
+
+            //Get best location
+            double minDist = Double.MaxValue;
+            string bestLocation = String.Empty;
+            foreach (var pair in StaticShit.KnownGpsCoords)
+            {
+                double dist = requestedGps.DistanceTo(pair.Value);
+                if (dist < minDist)
+                {
+                    minDist = dist;
+                    bestLocation = pair.Key;
+                }
+            }
+
+            //Get all available data
+            return null;
         }
 
         // POST api/values
