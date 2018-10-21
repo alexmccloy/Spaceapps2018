@@ -42,7 +42,7 @@ namespace TheWebApp.Code
             return "Card";
         }
 
-        public void PREPARETOBESERIALISED()
+        public void PREPARETOBESERIALISED(int month)
         {
             CardTitle = GetCardTitle();
 
@@ -50,7 +50,7 @@ namespace TheWebApp.Code
             Dictionary<DateTime, double> newData = new Dictionary<DateTime, double>();
             foreach(var key in Data.Keys)
             {
-                if (key.Month == DateTime.Today.Month)
+                if (key.Month == month)
                 {
                     newData.Add(key, Data[key]);
                 }

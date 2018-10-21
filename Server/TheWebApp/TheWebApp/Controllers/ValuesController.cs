@@ -49,7 +49,7 @@ namespace TheWebApp.Controllers
         /// <param name="lon"></param>
         /// <param name="lat"></param>
         /// <returns></returns>
-        public IList<Result> Get(double lon, double lat)
+        public IList<Result> Get(double lon, double lat, int month)
         {
             GpsCoord requestedGps = new GpsCoord(lat, lon);
             List<Result> results = new List<Result>();
@@ -75,7 +75,7 @@ namespace TheWebApp.Controllers
 
             StaticShit.UsefulInformation.ToList().ForEach(item => results.Add(item));
 
-            results.ForEach(r => r.PREPARETOBESERIALISED());
+            results.ForEach(r => r.PREPARETOBESERIALISED(month));
 
             return results;
         }
