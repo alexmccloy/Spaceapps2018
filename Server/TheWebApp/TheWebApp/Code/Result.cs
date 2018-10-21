@@ -18,6 +18,9 @@ namespace TheWebApp.Code
 
         public string CardTitle;
 
+        public int DataCountBefore;
+        public int DataCountAfter;
+
         public Result()
         {
             Data = new Dictionary<DateTime, double>();
@@ -44,6 +47,7 @@ namespace TheWebApp.Code
 
         public void PREPARETOBESERIALISED(int month)
         {
+            DataCountBefore = Data.Count();
             CardTitle = GetCardTitle();
 
             //filter data so that it is only for this month
@@ -57,6 +61,8 @@ namespace TheWebApp.Code
             }
 
             Data = newData;
+
+            DataCountAfter = Data.Count();
         }
     }
 }
