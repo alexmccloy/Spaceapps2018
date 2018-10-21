@@ -75,6 +75,8 @@ namespace TheWebApp.Controllers
 
             StaticShit.UsefulInformation.ToList().ForEach(item => results.Add(item));
 
+            results.ForEach(r => r.PREPARETOBESERIALISED());
+
             return results;
         }
 
