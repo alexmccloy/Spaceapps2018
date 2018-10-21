@@ -20,6 +20,7 @@ namespace TheWebApp.Code
 
         public int DataCountBefore;
         public int DataCountAfter;
+        public int Month;
 
         public Result()
         {
@@ -47,6 +48,7 @@ namespace TheWebApp.Code
 
         public void PREPARETOBESERIALISED(int month)
         {
+            month = month;
             DataCountBefore = Data.Count();
             CardTitle = GetCardTitle();
 
