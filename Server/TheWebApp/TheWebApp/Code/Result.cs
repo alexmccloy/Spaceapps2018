@@ -30,7 +30,10 @@ namespace TheWebApp.Code
 
         public void AddData(string time, string value)
         {
-            Data.Add(DateTime.ParseExact(time, "M/d/yyyy", null), Double.Parse(value));
+            DateTime key = DateTime.ParseExact(time, "M/d/yyyy", null);
+            if (!Data.ContainsKey(key)) {
+                Data.Add(key, Double.Parse(value));
+            }
         }
 
         private string GetCardTitle()
