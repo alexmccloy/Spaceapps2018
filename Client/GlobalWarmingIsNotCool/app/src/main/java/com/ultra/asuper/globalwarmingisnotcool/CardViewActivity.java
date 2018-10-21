@@ -89,7 +89,7 @@ public class CardViewActivity extends AppCompatActivity {
                         if (loc != null) {
                             String url = "http://yourboythewebapp.azurewebsites.net/api/Values?";
                             url += "lat=" + loc.getLatitude() + "&lon=" + loc.getLongitude();
-                            url += "&month=" + new Date().getMonth() + 1;
+                            url += "&month=10";
                             StringRequest req = new StringRequest(Request.Method.GET, url,
                                     new Response.Listener<String>() {
                                         @Override
@@ -213,8 +213,9 @@ public class CardViewActivity extends AppCompatActivity {
             }
         }
 
+        String url = data.getString("url");
         CardObject obj = new CardObject(jsonObj.getString("CardTitle"),
-                blurb, null, null);
+                blurb, null, null, url);
 
         return obj;
     }

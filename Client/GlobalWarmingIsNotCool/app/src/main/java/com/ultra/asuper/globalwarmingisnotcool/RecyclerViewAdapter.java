@@ -1,8 +1,11 @@
 package com.ultra.asuper.globalwarmingisnotcool;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewManager;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -21,6 +25,7 @@ import com.squareup.picasso.Picasso;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -54,6 +59,7 @@ public class RecyclerViewAdapter extends RecyclerView
         @Override
         public void onClick(View v) {
             myClickListener.onItemClick(getAdapterPosition(), v);
+
         }
     }
 
@@ -104,11 +110,32 @@ public class RecyclerViewAdapter extends RecyclerView
 
                 String imgUrl = mDataset.get(position).getmText2();
                 Picasso.with(holder.image.getContext()).load(imgUrl).fit().into(holder.image);
+                //holder.image.setPadding(0, 40, 0,0);
 
                 ((ViewManager)holder.dateTime.getParent()).removeView(holder.dateTime);
+
+                final Uri url = Uri.parse(mDataset.get(position).getmUrl());
+                holder.image.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(Intent.ACTION_VIEW, url);
+                        v.getContext().startActivity(i);
+                    }
+                });
             } else {
                 ((ViewManager)holder.image.getParent()).removeView(holder.image);
+
+                final Uri url = Uri.parse(mDataset.get(position).getmUrl());
+                holder.dateTime.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(Intent.ACTION_VIEW, url);
+                        v.getContext().startActivity(i);
+                    }
+                });
             }
+
+
         }
     }
 

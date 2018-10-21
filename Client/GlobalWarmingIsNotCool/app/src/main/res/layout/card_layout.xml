@@ -36,6 +36,7 @@
                 android:id="@+id/chart1"
                 android:layout_width="match_parent"
                 android:layout_height="240dp"
+                android:paddingTop="40dp"
                 android:layout_alignParentBottom="true" />
 
             <ImageView

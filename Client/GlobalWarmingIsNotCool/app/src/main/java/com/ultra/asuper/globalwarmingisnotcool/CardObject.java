@@ -10,12 +10,21 @@ public class CardObject {
     private String mText2;
     private LineData mLineData;
     private List<String> mDateLabels;
+    private String mUrl;
 
     CardObject (String text1, String text2, LineData lineData, List<String> dateLabels){
         mText1 = text1;
         mText2 = text2;
         mLineData = lineData;
         mDateLabels = dateLabels;
+    }
+
+    CardObject (String text1, String text2, LineData lineData, List<String> dateLabels, String url){
+        mText1 = text1;
+        mText2 = text2;
+        mLineData = lineData;
+        mDateLabels = dateLabels;
+        mUrl = url;
     }
 
     public String getmText1() {
@@ -48,5 +57,13 @@ public class CardObject {
 
     public void setmDateLabels(List<String> mDateLabels) {
         this.mDateLabels = mDateLabels;
+    }
+
+    public String getmUrl() {
+        return mUrl;
+    }
+
+    public void setmUrl(String mUrl) {
+        this.mUrl = mUrl;
     }
 }
