@@ -24,7 +24,7 @@ namespace TheWebApp.Code
 
         public void AddData(string time, string value)
         {
-            Data.Add(DateTime.ParseExact(time, "dd/MM/yyyy", null), Double.Parse(value));
+            Data.Add(DateTime.ParseExact(time, "d/M/yyyy", null), Double.Parse(value));
         }
     }
 }
