@@ -9,11 +9,13 @@ public class CardObject {
     private String mText1;
     private String mText2;
     private LineData mLineData;
+    private List<String> mDateLabels;
 
-    CardObject (String text1, String text2, LineData lineData){
+    CardObject (String text1, String text2, LineData lineData, List<String> dateLabels){
         mText1 = text1;
         mText2 = text2;
         mLineData = lineData;
+        mDateLabels = dateLabels;
     }
 
     public String getmText1() {
@@ -38,5 +40,13 @@ public class CardObject {
 
     public void setmLineData(LineData mLineData) {
         this.mLineData = mLineData;
+    }
+
+    public List<String> getmDateLabels() {
+        return mDateLabels;
+    }
+
+    public void setmDateLabels(List<String> mDateLabels) {
+        this.mDateLabels = mDateLabels;
     }
 }

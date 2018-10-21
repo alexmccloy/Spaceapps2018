@@ -29,6 +29,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -37,7 +38,13 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 public class CardViewActivity extends AppCompatActivity {
@@ -60,7 +67,7 @@ public class CardViewActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new RecyclerViewAdapter(new ArrayList<CardObject>());
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        mRecyclerView.setAdapter(mAdapter);
+
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -89,22 +96,17 @@ public class CardViewActivity extends AppCompatActivity {
                                             XPathFactory factory = XPathFactory.newInstance();
                                             XPath xPath = factory.newXPath();
                                             try {
-                                                String city = (String) xPath.evaluate("/ArrayOfResult/Result/City", response, XPathConstants.NODESET);
+                                                JSONArray json = new JSONArray(response);
 
-                                                List<Entry> entries = new ArrayList<Entry>();
-                                                for (int i = 0; i < 50; i++) {
-                                                    entries.add(new Entry(i, i % 5));
+                                                for (int i = 0; i < json.length(); i++) {
+                                                    JSONObject jsonObj = json.getJSONObject(i);
+                                                    CardObject obj = getCardFromJSON(jsonObj);
+                                                    ((RecyclerViewAdapter) mAdapter).addItem(obj);
                                                 }
-                                                LineDataSet dataSet = new LineDataSet(entries, "Label");
-                                                dataSet.setColor(Color.rgb(255, 0, 0));
-                                                dataSet.setValueTextColor(Color.rgb(0, 255, 0));
-                                                LineData lineData = new LineData(dataSet);
 
-                                                CardObject obj = new CardObject("Some Primary Text",
-                                                        "City: " + city, lineData);
-                                                ((RecyclerViewAdapter) mAdapter).addItem(obj);
+                                                mRecyclerView.setAdapter(mAdapter);
 
-                                            } catch (XPathExpressionException e) {
+                                            } catch (org.json.JSONException e) {
                                                 e.printStackTrace();
                                             }
                                         }
@@ -128,6 +130,31 @@ public class CardViewActivity extends AppCompatActivity {
         //((MyRecyclerViewAdapter) mAdapter).deleteItem(index);
     }
 
+    private CardObject getCardFromJSON(JSONObject jsonObj) throws JSONException {
+        String city = jsonObj.getString("City");
+
+        List<Entry> entries = new ArrayList<Entry>();
+        List<String> xDateLabels = new ArrayList<String>();
+        JSONObject data = jsonObj.getJSONObject("Data");
+        int index = 0;
+        for (Iterator<String> it = data.keys(); it.hasNext(); ) {
+            String key = it.next();
+            float val = (float) data.get(key);
+            entries.add(new Entry(val, index++));
+            xDateLabels.add(key.substring(0,10));
+        }
+        LineDataSet dataSet = new LineDataSet(entries, "Label");
+
+        dataSet.setColor(Color.rgb(255, 0, 0));
+        dataSet.setValueTextColor(Color.rgb(0, 255, 0));
+        LineData lineData = new LineData(dataSet);
+
+        CardObject obj = new CardObject(jsonObj.getString("CardTitle"),
+                "City: " + city, lineData, xDateLabels);
+
+        return obj;
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -140,22 +167,22 @@ public class CardViewActivity extends AppCompatActivity {
         });
     }
 
-    private ArrayList<CardObject> getData() {
-        ArrayList results = new ArrayList<CardObject>();
-        for (int index = 0; index < 20; index++) {
-            List<Entry> entries = new ArrayList<Entry>();
-            for (int i = 0; i < 50; i++) {
-                entries.add(new Entry(i, i % 5));
-            }
-            LineDataSet dataSet = new LineDataSet(entries, "Label");
-            dataSet.setColor(Color.rgb(255,0,0));
-            dataSet.setValueTextColor(Color.rgb(0,255,0));
-            LineData lineData = new LineData(dataSet);
-
-            CardObject obj = new CardObject("Some Primary Text " + index,
-                    "Secondary " + index, lineData);
-            results.add(index, obj);
-        }
-        return results;
-    }
+//    private ArrayList<CardObject> getData() {
+//        ArrayList results = new ArrayList<CardObject>();
+//        for (int index = 0; index < 20; index++) {
+//            List<Entry> entries = new ArrayList<Entry>();
+//            for (int i = 0; i < 50; i++) {
+//                entries.add(new Entry(i, i % 5));
+//            }
+//            LineDataSet dataSet = new LineDataSet(entries, "Label");
+//            dataSet.setColor(Color.rgb(255,0,0));
+//            dataSet.setValueTextColor(Color.rgb(0,255,0));
+//            LineData lineData = new LineData(dataSet);
+//
+//            CardObject obj = new CardObject("Some Primary Text " + index,
+//                    "Secondary " + index, lineData);
+//            results.add(index, obj);
+//        }
+//        return results;
+//    }
 }
