@@ -66,9 +66,9 @@ public class RecyclerViewAdapter extends RecyclerView
     public void onBindViewHolder(DataObjectHolder holder, final int position) {
         holder.label.setText(mDataset.get(position).getmText1());
         holder.dateTime.setText(mDataset.get(position).getmText2());
-        holder.chart.setData(mDataset.get(position).getmLineData());
 
         XAxis xAxis = holder.chart.getXAxis();
+        xAxis.setLabelRotationAngle(-45);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
 
@@ -79,6 +79,7 @@ public class RecyclerViewAdapter extends RecyclerView
             }
         });
 
+        holder.chart.setData(mDataset.get(position).getmLineData());
         holder.chart.invalidate();
     }
 

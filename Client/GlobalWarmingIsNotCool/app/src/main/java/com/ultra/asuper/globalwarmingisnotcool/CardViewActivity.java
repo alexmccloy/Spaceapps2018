@@ -100,8 +100,15 @@ public class CardViewActivity extends AppCompatActivity {
 
                                                 for (int i = 0; i < json.length(); i++) {
                                                     JSONObject jsonObj = json.getJSONObject(i);
-                                                    CardObject obj = getCardFromJSON(jsonObj);
-                                                    ((RecyclerViewAdapter) mAdapter).addItem(obj);
+                                                    CardObject obj;
+                                                    if (jsonObj.getString("DataType").startsWith("temperature")) {
+                                                        obj = getTempCardFromJSON(jsonObj);
+                                                        ((RecyclerViewAdapter) mAdapter).addItem(obj);
+                                                    } else if (jsonObj.getString("DataType").startsWith("rain")) {
+                                                        obj = getRainCardFromJSON(jsonObj);
+                                                        ((RecyclerViewAdapter) mAdapter).addItem(obj);
+                                                    }
+
                                                 }
 
                                                 mRecyclerView.setAdapter(mAdapter);
@@ -130,7 +137,7 @@ public class CardViewActivity extends AppCompatActivity {
         //((MyRecyclerViewAdapter) mAdapter).deleteItem(index);
     }
 
-    private CardObject getCardFromJSON(JSONObject jsonObj) throws JSONException {
+    private CardObject getTempCardFromJSON(JSONObject jsonObj) throws JSONException {
         String city = jsonObj.getString("City");
 
         List<Entry> entries = new ArrayList<Entry>();
@@ -139,11 +146,37 @@ public class CardViewActivity extends AppCompatActivity {
         int index = 0;
         for (Iterator<String> it = data.keys(); it.hasNext(); ) {
             String key = it.next();
-            float val = (float) data.get(key);
-            entries.add(new Entry(val, index++));
-            xDateLabels.add(key.substring(0,10));
+            float val = (float)((double)data.get(key));
+            entries.add(new Entry(index++, val));
+            xDateLabels.add(key.substring(0,4));
         }
-        LineDataSet dataSet = new LineDataSet(entries, "Label");
+        LineDataSet dataSet = new LineDataSet(entries, "");
+
+        dataSet.setColor(Color.rgb(255, 0, 0));
+        dataSet.setValueTextColor(Color.rgb(0, 255, 0));
+        LineData lineData = new LineData(dataSet);
+
+        CardObject obj = new CardObject(jsonObj.getString("CardTitle"),
+                "City: " + city, lineData, xDateLabels);
+
+        return obj;
+    }
+
+
+    private CardObject getRainCardFromJSON(JSONObject jsonObj) throws JSONException {
+        String city = jsonObj.getString("City");
+
+        List<Entry> entries = new ArrayList<Entry>();
+        List<String> xDateLabels = new ArrayList<String>();
+        JSONObject data = jsonObj.getJSONObject("Data");
+        int index = 0;
+        for (Iterator<String> it = data.keys(); it.hasNext(); ) {
+            String key = it.next();
+            float val = (float)((double)data.get(key));
+            entries.add(new Entry(index++, val));
+            xDateLabels.add(key.substring(0,4));
+        }
+        LineDataSet dataSet = new LineDataSet(entries, "");
 
         dataSet.setColor(Color.rgb(255, 0, 0));
         dataSet.setValueTextColor(Color.rgb(0, 255, 0));
