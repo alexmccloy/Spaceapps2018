@@ -31,11 +31,13 @@ namespace TheWebApp.Code
 
         private string GetCardTitle()
         {
+            string month = DateTime.Today.ToString("MMMM");
             if (ExtraData.ContainsKey("title")) return ExtraData["title"];
 
-            if (DataType == TableType.temperature_maximum.ToString()) return "Temperature - Monthly Highest";
-            if (DataType == TableType.temperature_meanmax.ToString()) return "Temperature - Monthly Average Maximum";
-            if (DataType == TableType.temperature_meanmin.ToString()) return "Temperature - Monthly Average Minimum";
+            if (DataType == TableType.temperature_maximum.ToString()) return $"Temperature - Monthly Highest {month}";
+            if (DataType == TableType.temperature_meanmax.ToString()) return $"Temperature - Monthly Average Maximum {month}";
+            if (DataType == TableType.temperature_meanmin.ToString()) return $"Temperature - Monthly Average Minimum {month}";
+            if (DataType == TableType.rain_total.ToString()) return "Rainfall - Monthly Total";
 
             return "Card";
         }
@@ -43,6 +45,18 @@ namespace TheWebApp.Code
         public void PREPARETOBESERIALISED()
         {
             CardTitle = GetCardTitle();
+
+            //filter data so that it is only for this month
+            Dictionary<DateTime, double> newData = new Dictionary<DateTime, double>();
+            foreach(var key in Data.Keys)
+            {
+                if (key.Month == DateTime.Today.Month)
+                {
+                    newData.Add(key, Data[key]);
+                }
+            }
+
+            Data = newData;
         }
     }
 }

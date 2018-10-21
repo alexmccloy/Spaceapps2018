@@ -10,5 +10,6 @@ namespace TheWebApp.Code
         temperature_meanmax,
         temperature_maximum,
         temperature_meanmin,
+        rain_total,
     }
 }
