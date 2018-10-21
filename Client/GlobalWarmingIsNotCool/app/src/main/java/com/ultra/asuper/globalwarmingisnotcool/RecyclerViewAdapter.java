@@ -72,6 +72,11 @@ public class RecyclerViewAdapter extends RecyclerView
         notifyItemInserted(index);
     }
 
+    public void addItem(CardObject dataObj) {
+        mDataset.add(dataObj);
+        notifyItemInserted(mDataset.size() - 1);
+    }
+
     public void deleteItem(int index) {
         mDataset.remove(index);
         notifyItemRemoved(index);
