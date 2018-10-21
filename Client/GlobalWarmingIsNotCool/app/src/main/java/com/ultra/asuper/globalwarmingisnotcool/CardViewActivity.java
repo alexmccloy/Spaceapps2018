@@ -105,8 +105,8 @@ public class CardViewActivity extends AppCompatActivity {
                                                         obj = getTempCardFromJSON(jsonObj);
                                                         ((RecyclerViewAdapter) mAdapter).addItem(obj);
                                                     } else if (jsonObj.getString("DataType").startsWith("rain")) {
-                                                        obj = getRainCardFromJSON(jsonObj);
-                                                        ((RecyclerViewAdapter) mAdapter).addItem(obj);
+//                                                        obj = getRainCardFromJSON(jsonObj);
+//                                                        ((RecyclerViewAdapter) mAdapter).addItem(obj);
                                                     }
 
                                                 }
