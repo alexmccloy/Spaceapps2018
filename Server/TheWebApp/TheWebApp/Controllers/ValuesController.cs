@@ -70,6 +70,7 @@ namespace TheWebApp.Controllers
             //Get all available data
             foreach (TableType type in Util.GetAllItems<TableType>())
             {
+
                 results.Add(StaticShit.Db.GetResultFor(type, bestLocation));
             }
 
