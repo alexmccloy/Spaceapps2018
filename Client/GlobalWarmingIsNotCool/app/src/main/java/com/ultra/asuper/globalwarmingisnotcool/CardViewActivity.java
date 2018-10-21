@@ -89,6 +89,7 @@ public class CardViewActivity extends AppCompatActivity {
                         if (loc != null) {
                             String url = "http://yourboythewebapp.azurewebsites.net/api/Values?";
                             url += "lat=" + loc.getLatitude() + "&lon=" + loc.getLongitude();
+                            url += "&month=" + new Date().getMonth();
                             StringRequest req = new StringRequest(Request.Method.GET, url,
                                     new Response.Listener<String>() {
                                         @Override
