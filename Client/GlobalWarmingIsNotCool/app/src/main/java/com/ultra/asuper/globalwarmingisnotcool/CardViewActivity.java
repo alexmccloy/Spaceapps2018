@@ -24,8 +24,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -70,14 +72,15 @@ public class CardViewActivity extends AppCompatActivity {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
+
+        final RequestQueue queue = Volley.newRequestQueue(this);
         mFusedLocationClient.getLastLocation()
                 .addOnSuccessListener(this, new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(Location loc) {
                         // Got last known location. In some rare situations this can be null.
                         if (loc != null) {
-
-                            String url = "http://yourboythewebapp.azurewebsites.com/api/Values?";
+                            String url = "http://yourboythewebapp.azurewebsites.net/api/Values?";
                             url += "lat=" + loc.getLatitude() + "&lon=" + loc.getLongitude();
                             StringRequest req = new StringRequest(Request.Method.GET, url,
                                     new Response.Listener<String>() {
@@ -113,7 +116,7 @@ public class CardViewActivity extends AppCompatActivity {
                                         }
                                     }
                             );
-
+                            queue.add(req);
                         }
                     }
                 });
