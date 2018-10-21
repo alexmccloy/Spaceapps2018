@@ -20,7 +20,9 @@ namespace TheWebApp.Code
 
         public IDictionary<string, GpsCoord> GetUniqueLocations()
         {
-            List<string> tableNames = new List<string>() { "meanmax" };
+            List<string> tableNames = new List<string>();
+
+            Util.GetAllItems<TableType>().ToList().ForEach(item => tableNames.Add(item.ToString()));
 
             Dictionary<string, GpsCoord> locations = new Dictionary<string, GpsCoord>();
 
