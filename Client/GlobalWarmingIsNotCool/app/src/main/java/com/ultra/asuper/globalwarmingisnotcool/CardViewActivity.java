@@ -89,7 +89,7 @@ public class CardViewActivity extends AppCompatActivity {
                         if (loc != null) {
                             String url = "http://yourboythewebapp.azurewebsites.net/api/Values?";
                             url += "lat=" + loc.getLatitude() + "&lon=" + loc.getLongitude();
-                            url += "&month=" + new Date().getMonth();
+                            url += "&month=" + new Date().getMonth() + 1;
                             StringRequest req = new StringRequest(Request.Method.GET, url,
                                     new Response.Listener<String>() {
                                         @Override
@@ -106,8 +106,11 @@ public class CardViewActivity extends AppCompatActivity {
                                                         obj = getTempCardFromJSON(jsonObj);
                                                         ((RecyclerViewAdapter) mAdapter).addItem(obj);
                                                     } else if (jsonObj.getString("DataType").startsWith("rain")) {
-//                                                        obj = getRainCardFromJSON(jsonObj);
-//                                                        ((RecyclerViewAdapter) mAdapter).addItem(obj);
+                                                        obj = getRainCardFromJSON(jsonObj);
+                                                        ((RecyclerViewAdapter) mAdapter).addItem(obj);
+                                                    } else if (jsonObj.getString("DataType").startsWith("url")) {
+                                                        obj = getURLCardFromJSON(jsonObj);
+                                                        ((RecyclerViewAdapter) mAdapter).addItem(obj);
                                                     }
 
                                                 }
@@ -179,12 +182,39 @@ public class CardViewActivity extends AppCompatActivity {
         }
         LineDataSet dataSet = new LineDataSet(entries, "");
 
-        dataSet.setColor(Color.rgb(255, 0, 0));
+        dataSet.setColor(Color.rgb(0, 0, 255));
         dataSet.setValueTextColor(Color.rgb(0, 255, 0));
         LineData lineData = new LineData(dataSet);
 
         CardObject obj = new CardObject(jsonObj.getString("CardTitle"),
                 "City: " + city, lineData, xDateLabels);
+
+        return obj;
+    }
+
+
+    private CardObject getURLCardFromJSON(JSONObject jsonObj) throws JSONException {
+        String city = jsonObj.getString("City");
+
+        List<Entry> entries = new ArrayList<Entry>();
+        List<String> xDateLabels = new ArrayList<String>();
+        JSONObject data = jsonObj.getJSONObject("ExtraData");
+
+        String blurb = "";
+        try {
+            blurb = data.getString("blurb");
+        } catch (Exception e) {
+        }
+
+        if (blurb.isEmpty()) {
+            try {
+                blurb = data.getString("image");
+            } catch (Exception e) {
+            }
+        }
+
+        CardObject obj = new CardObject(jsonObj.getString("CardTitle"),
+                blurb, null, null);
 
         return obj;
     }

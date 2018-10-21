@@ -30,7 +30,7 @@ namespace TheWebApp.Code
 
         public void AddData(string time, string value)
         {
-            Data.Add(DateTime.ParseExact(time, "d/M/yyyy", null), Double.Parse(value));
+            Data.Add(DateTime.ParseExact(time, "M/d/yyyy", null), Double.Parse(value));
         }
 
         private string GetCardTitle()
@@ -48,7 +48,7 @@ namespace TheWebApp.Code
 
         public void PREPARETOBESERIALISED(int month)
         {
-            month = month;
+            Month = month;
             DataCountBefore = Data.Count();
             CardTitle = GetCardTitle();
 

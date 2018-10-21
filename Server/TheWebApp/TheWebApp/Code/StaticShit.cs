@@ -40,7 +40,7 @@ namespace TheWebApp.Code
             };
             tempResult.ExtraData.Add("title", "Climate Change: The Science");
             tempResult.ExtraData.Add("url", @"https://www.greenpeace.org/usa/global-warming/climate-science/");
-            tempResult.ExtraData.Add("image", @"https://www.greenpeace.org/usa/wp-content/uploads/2015/06/GP01C26-extreme-weather.jpg");
+            tempResult.ExtraData.Add("image", @"http://www.greenpeace.org/usa/wp-content/uploads/2015/06/GP01C26-extreme-weather.jpg");
             results.Add(tempResult);
 
             return results;

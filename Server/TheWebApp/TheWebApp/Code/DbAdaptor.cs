@@ -15,11 +15,12 @@ namespace TheWebApp.Code
         public DbAdaptor(string dbName)
         {
             dbConnection = new SQLiteConnection(($"Data Source = {HostingEnvironment.MapPath($"~/App_Data/{dbName}")}.; Version = 3;"));
+            dbConnection.Open();
         }
 
         public IDictionary<string, GpsCoord> GetUniqueLocations()
         {
-            dbConnection.Open();
+            //dbConnection.Open();
             List<string> tableNames = new List<string>();
 
             Util.GetAllItems<TableType>().ToList().ForEach(item => tableNames.Add(item.ToString()));
@@ -45,14 +46,14 @@ namespace TheWebApp.Code
                     }
                 }
             }
-            dbConnection.Close();
+            //dbConnection.Close();
 
             return locations;
         }
 
         public Result GetResultFor(TableType table, string locationName)
         {
-            dbConnection.Open();
+            //dbConnection.Open();
             string query = $"SELECT itsTheDate,yaboythevalue FROM {table.ToString()} WHERE location = '{locationName}'";
             SQLiteDataReader reader;
 
@@ -74,7 +75,7 @@ namespace TheWebApp.Code
                 result.AddData(reader["itsTheDate"].ToString().Split(' ')[0], reader["yaboythevalue"].ToString());
             }
 
-            dbConnection.Close();
+            //dbConnection.Close();
             return result;
         }
     }
