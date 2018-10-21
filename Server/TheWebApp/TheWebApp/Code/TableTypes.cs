@@ -5,8 +5,10 @@ using System.Web;
 
 namespace TheWebApp.Code
 {
-    public static class GpsUtil
+    public enum TableType
     {
-        
+        meanmax,
+        maximum,
+        meanmin,
     }
 }

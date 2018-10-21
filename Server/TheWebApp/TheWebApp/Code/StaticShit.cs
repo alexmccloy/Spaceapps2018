@@ -13,7 +13,7 @@ namespace TheWebApp.Code
 
         public static void Init()
         {
-            Db = new DbAdaptor("yourBoyTheDatabase.db");
+            Db = new DbAdaptor("yourBoy.db");
             KnownGpsCoords = Db.GetUniqueLocations();
         }
     }
