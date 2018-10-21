@@ -52,15 +52,20 @@ namespace TheWebApp.Code
 
             //filter data so that it is only for this month
             Dictionary<DateTime, double> newData = new Dictionary<DateTime, double>();
+            List<DateTime> toRemove = new List<DateTime>();
             foreach(var key in Data.Keys)
             {
-                if (key.Month == month)
+                if (key.Month != month)
                 {
-                    newData.Add(key, Data[key]);
+                    //newData.Add(key, Data[key]);
+                    toRemove.Add(key);
                 }
             }
 
-            Data = newData;
+            foreach(var a in toRemove)
+            {
+                Data.Remove(a);
+            }
 
             DataCountAfter = Data.Count();
         }
