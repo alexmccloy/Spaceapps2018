@@ -5,6 +5,7 @@ using System.Web;
 
 namespace TheWebApp.Code
 {
+    [Serializable]
     public class Result
     {
         public string DataType;
@@ -13,10 +14,12 @@ namespace TheWebApp.Code
         public string City;
 
         public Dictionary<DateTime, double> Data;
+        public Dictionary<string, string> ExtraData;
 
         public Result()
         {
             Data = new Dictionary<DateTime, double>();
+            ExtraData = new Dictionary<string, string>();
         }
 
         public void AddData(string time, string value)

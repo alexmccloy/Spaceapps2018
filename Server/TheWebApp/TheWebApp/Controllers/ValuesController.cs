@@ -73,6 +73,8 @@ namespace TheWebApp.Controllers
                 results.Add(StaticShit.Db.GetResultFor(type, bestLocation));
             }
 
+            StaticShit.UsefulInformation.ToList().ForEach(item => results.Add(item));
+
             return results;
         }
 

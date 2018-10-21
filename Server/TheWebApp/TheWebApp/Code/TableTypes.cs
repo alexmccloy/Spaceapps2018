@@ -7,8 +7,8 @@ namespace TheWebApp.Code
 {
     public enum TableType
     {
-        meanmax,
-        maximum,
-        meanmin,
+        temperature_meanmax,
+        temperature_maximum,
+        temperature_meanmin,
     }
 }
